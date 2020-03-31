@@ -8,20 +8,24 @@ import { signInSuccess } from './actions';
 function* signIn({ payload }) {
   const { email, password } = payload;
 
-  const response = yield call(api.post, '/sessions', {
-    email,
-    password,
-  });
+  try {
+    const response = yield call(api.post, '/sessions', {
+      email,
+      password,
+    });
 
-  const { token, user } = response.data;
+    const { token, user } = response.data;
 
-  if (user.provider) {
-    console.tron.warn('User is provider');
-    return;
+    if (!user.provider) {
+      console.tron.warn('User is NOT provider');
+      return;
+    }
+
+    yield put(signInSuccess(token, user));
+    history.push('/dashboard');
+  } catch (error) {
+    console.tron.error('User not found');
   }
-
-  yield put(signInSuccess(token, user));
-  history.push('/dashboard');
 }
 
 export default all([takeLatest('@auth/SIGN_IN_REQUEST', signIn)]);
