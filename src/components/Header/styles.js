@@ -28,6 +28,11 @@ export const Content = styled.div`
       color: #7159c1;
     }
   }
+
+  aside {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 export const Profile = styled.div`
