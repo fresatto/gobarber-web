@@ -5,10 +5,15 @@ import { updateUserSuccess, updateUserFailure } from './actions';
 
 function* updateUser({ payload }) {
   try {
-    const { name, email, ...rest } = payload;
+    const { name, email, avatar_id, ...rest } = payload;
 
     console.tron.log(rest);
-    const profile = { name, email, ...(rest.oldPassword ? rest : {}) };
+    const profile = {
+      name,
+      email,
+      avatar_id,
+      ...(rest.oldPassword ? rest : {}),
+    };
 
     const response = yield call(api.put, 'users', profile);
 
